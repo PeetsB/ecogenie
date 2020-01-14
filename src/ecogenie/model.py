@@ -1,5 +1,14 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""Module documentation goes here
+   and here
+   and ...
+"""
+
 import os
 from os import path
+import sys
 import pandas as pd
 import numpy as np
 
@@ -27,7 +36,9 @@ def list_and_check_dirs(startpath, critical_dirs, working_directories):
     working_directories['absolute_path'].replace('', np.nan, inplace=True)
     #create a list of indices
     missing_dirs=working_directories.iloc[np.where(pd.isnull(working_directories))].index.tolist()
-    for i in missing_dirs:
-        print('{} {}/'.format('Missing critical directory: ', working_directories.loc[i,'critical_dirs']))
+    if missing_dirs:
+        for i in missing_dirs:
+            print('{} {}/'.format('Missing critical directory: ', working_directories.loc[i,'critical_dirs']))
+        sys.exit(1)
     if not missing_dirs:
         print('All critical directories exist and are set in data frame: working_directories')
